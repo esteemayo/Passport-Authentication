@@ -1,18 +1,25 @@
 const express = require('express');
+const authController = require('../controllers/authController');
+
 const router = express.Router();
 
-// CONTROLLERS
-const login = require('../controllers/login');
-const loginLogic = require('../controllers/loginLogic');
-const logout = require('../controllers/logout');
+// Get login route
+router
+    .route('/login')
+    .get(authController.loginForm)
+    .post(authController.login);
 
-// GET LOGIN ROUTE
-router.get('/login', login);
+// Logout
+router.get('/logout', authController.logout);
 
-// LOGIN HANDLE
-router.post('/login', loginLogic);
+router
+    .route('/forgot-password')
+    .get(authController.forgotForm)
+    .post(authController.forgotPassword);
 
-// LOGOUT HANDLE
-router.get('/logout', logout);
+router
+    .route('/reset/:token')
+    .get(authController.reset)
+    .post(authController.resetPassword);
 
 module.exports = router;
